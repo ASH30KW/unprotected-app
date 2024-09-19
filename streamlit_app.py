@@ -15,7 +15,7 @@ if uploaded_file is not None:
     try:
         workbook = load_workbook(filename=BytesIO(uploaded_file.read()))
         for sheet in workbook.sheetnames:
-            st.write(f"正在去除密码: {sheet}")
+            # st.write(f"正在去除密码: {sheet}")
             workbook[sheet].protection.sheet = False
 
         # Save the unprotected file
