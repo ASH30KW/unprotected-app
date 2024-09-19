@@ -21,7 +21,7 @@ if uploaded_file is not None:
         output.seek(0)
         
         # Provide the unprotected file for download
-        st.download_button(label="下载去除密码的 Excel 文件", data=output, file_name="unprotected_file.xlsx")
+        st.download_button(label="下载去除密码的 Excel 文件", data=output, file_name="无密码.xlsx")
         st.success("成功去除密码!")
     except Exception as e:
         st.error(f"Error processing file: {e}")
