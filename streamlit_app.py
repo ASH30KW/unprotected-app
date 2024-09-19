@@ -1,6 +1,27 @@
 import streamlit as st
+from openpyxl import load_workbook
+from io import BytesIO
 
-st.title("🎈 My new app")
-st.write(
-    "Let's start building! For help and inspiration, head over to [docs.streamlit.io](https://docs.streamlit.io/)."
-)
+st.title("Excel 表格去除密码 App")
+
+# File uploader widget
+uploaded_file = st.file_uploader("请上传 Excel 文件", type="xlsx")
+
+if uploaded_file is not None:
+    # Load the uploaded Excel file
+    try:
+        workbook = load_workbook(filename=BytesIO(uploaded_file.read()))
+        for sheet in workbook.sheetnames:
+            st.write(f"正在去除密码: {sheet}")
+            workbook[sheet].protection.sheet = False
+
+        # Save the unprotected file
+        output = BytesIO()
+        workbook.save(output)
+        output.seek(0)
+        
+        # Provide the unprotected file for download
+        st.download_button(label="下载去除密码的 Excel 文件", data=output, file_name="unprotected_file.xlsx")
+        st.success("成功去除密码!")
+    except Exception as e:
+        st.error(f"Error processing file: {e}")
